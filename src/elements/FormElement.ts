@@ -11,7 +11,7 @@ export const handleFormSubmit = (event: Event) => {
   let formOutput = <HTMLTextAreaElement>document.getElementById('formOutput');
 
   if (!availableOptions.includes(option)) return;
-  formOutput.value = getClassNames({ input: inputData, formType: option, moduleImportName: moduleName });
+  formOutput.value = getClassNames({ input: inputData, formType: option, moduleName });
 };
 
 export const FormElement = () => {

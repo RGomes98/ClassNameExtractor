@@ -1,13 +1,17 @@
+import { getClassNameSettings } from './getClassNamesSettings';
 import { parseFormData } from './parseFormData';
 
-type getClassNames = { input: string; formType: FormType[0 | 1 | 2]; moduleImportName?: string };
+type getClassNames = { input: string; formType: FormType[0 | 1 | 2]; moduleName?: string };
 export type FormType = typeof availableOptions;
 
 export const availableOptions = ['html', 'jsx', 'module'] as const;
 
 export const getClassNames = (parameters: getClassNames) => {
-  const moduleName = (parameters.formType === 'module' && parameters.moduleImportName) || '';
-  const { input, formType } = parameters;
+  const { input, formType, moduleName } = parameters;
+  const CLASS_NAME_SIZE_LIMIT = 100;
+  const classNames: string[] = [];
+  let classNameCount = 0;
+  let className = '';
 
   const formCases = {
     html: { baseString: 'class=', start: ["'", '"'], end: ["'", '"'] },
@@ -17,48 +21,46 @@ export const getClassNames = (parameters: getClassNames) => {
 
   const { baseString, start, end } = formCases[formType];
 
-  const isFormDataValid = parseFormData({ input, baseString, formType, end, moduleName });
-  if (!isFormDataValid) return 'Invalid Code Structure';
+  const isInputDataValid = parseFormData({ input, baseString, formType, end, moduleName });
+  if (!isInputDataValid) return 'Invalid Code Structure';
 
-  const CLASS_NAME_SIZE_LIMIT = 100;
-  const classNames: string[] = [];
-  let classNameMatchCount = 0;
-  let className = '';
-
-  for (const [index, currentClassNameChar] of Object.entries(input)) {
-    const currentBaseStringChar = baseString[classNameMatchCount];
-    const isClassNameMatching = className == baseString;
-    const currentIndex = Number(index);
-
-    if (currentClassNameChar === currentBaseStringChar) {
-      className += currentClassNameChar;
-      classNameMatchCount++;
+  for (let i = 0; i < input.length; i++) {
+    if (input[i] === baseString[classNameCount]) {
+      className += input[i];
+      classNameCount++;
     } else {
       className = '';
-      classNameMatchCount = 0;
+      classNameCount = 0;
     }
 
-    if (isClassNameMatching) {
-      let classNameCharCount = 0;
-      className = '.';
+    if (className === baseString) {
+      let classNameSlider = 1;
+      className = '';
 
-      const isPatternMatching = start.some((symbol) => input[currentIndex + classNameCharCount] == symbol);
-      if (!isPatternMatching) continue;
-      classNameCharCount++;
+      const foundOpeningMark = start.some((symbol) => input[classNameSlider + i] == symbol);
+      if (!foundOpeningMark) continue;
+
+      classNameSlider++;
 
       while (true) {
-        const isClosingMark = end.some((symbol) => input[currentIndex + classNameCharCount] == symbol);
-        if (isClosingMark || classNameCharCount === CLASS_NAME_SIZE_LIMIT) break;
+        const foundClosingMark = end.some((symbol) => input[classNameSlider + i] === symbol);
+        if (foundClosingMark || classNameSlider === CLASS_NAME_SIZE_LIMIT) break;
 
-        className += input[currentIndex + classNameCharCount];
-        classNameCharCount++;
+        if (input[classNameSlider + i] === ' ') {
+          const [isClassNameRepeated, formattedClassName] = getClassNameSettings(className, classNames);
+          if (!isClassNameRepeated) classNames.push(formattedClassName);
+          className = '';
+        }
+
+        className += input[classNameSlider + i];
+        classNameSlider++;
       }
 
-      className += '{}';
-      const isClassNameRepeated = classNames.includes(className);
-      if (!isClassNameRepeated) classNames.push(className) && (className = '');
+      const [isClassNameRepeated, formattedClassName] = getClassNameSettings(className, classNames);
+      if (!isClassNameRepeated) classNames.push(formattedClassName);
+      className = '';
     }
   }
 
-  return classNames.toString().split(',').join(' ');
+  return classNames.toString().split(',').join('\n');
 };

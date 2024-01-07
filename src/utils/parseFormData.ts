@@ -2,7 +2,7 @@ type ParseFormData = {
   input: string;
   baseString: string;
   formType: string;
-  moduleName: string;
+  moduleName?: string;
   end: string[];
 };
 
