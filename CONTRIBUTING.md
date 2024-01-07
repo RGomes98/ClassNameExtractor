@@ -41,6 +41,6 @@ Follow the existing code style and conventions. If unsure, refer to the project'
 
 ## License
 
-By contributing to CodeChisel, you agree that your contributions will be licensed under the [MIT License](LICENSE).
+By contributing to CodeChisel, you agree that your contributions will be licensed under the [MIT License](LICENSE.md).
 
 Thank you for your contribution!
