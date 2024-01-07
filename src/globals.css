@@ -53,6 +53,7 @@ main {
   gap: 3.5rem;
   width: 100%;
   display: flex;
+  align-items: center;
   flex-direction: column;
 }
 
@@ -100,7 +101,9 @@ textarea {
 }
 .form {
   gap: 2rem;
+  width: 100%;
   display: flex;
+  max-width: 75rem;
   flex-direction: column;
 }
 .input-wrapper {
