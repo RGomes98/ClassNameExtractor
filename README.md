@@ -12,7 +12,7 @@ As a developer, I frequently found myself spending unnecessary time copying clas
 
 ## Features
 
-- **Code Format Support:** Extract classnames from HTML, JSX, or JSX with CSS modules.
+- **Code Format Support:** Extract class names from HTML, JSX, or JSX with CSS modules.
 - **Module Import:** Specify the module import name when dealing with JSX and CSS modules.
 - **Efficiency Boost:** Streamline your workflow by automating the extraction process.
 - **User-Friendly Interface:** Simple and intuitive, making it easy for developers to integrate into their workflow.
@@ -22,7 +22,7 @@ As a developer, I frequently found myself spending unnecessary time copying clas
 1. **Input Code:** Paste your HTML, JSX, or JSX with CSS modules code into the input.
 2. **Select Code Format:** Choose the appropriate code format from the dropdown menu (HTML, JSX, JSX with Modules).
 3. **Specify Module Import (if applicable):** If working with JSX and CSS modules, enter the module import name in the designated input field.
-4. **Click "Extract Classnames":** Let CodeChisel do the work! Extracted classnames will be displayed in the output textarea.
+4. **Click "Extract":** Let CodeChisel do the work! Extracted class names will be displayed in the output textarea.
 
 ## Getting Started
 
