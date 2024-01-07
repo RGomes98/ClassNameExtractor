@@ -1,10 +1,9 @@
 import { getClassNameSettings } from './getClassNamesSettings';
+import type { FormType } from '../components/Form/Form';
 import { parseFormData } from './parseFormData';
+import { getFormCases } from './getFormCases';
 
 type getClassNames = { input: string; formType: FormType[0 | 1 | 2]; moduleName?: string };
-export type FormType = typeof availableOptions;
-
-export const availableOptions = ['html', 'jsx', 'module'] as const;
 
 export const getClassNames = (parameters: getClassNames) => {
   const { input, formType, moduleName } = parameters;
@@ -13,16 +12,9 @@ export const getClassNames = (parameters: getClassNames) => {
   let classNameCount = 0;
   let className = '';
 
-  const formCases = {
-    html: { baseString: 'class=', start: ["'", '"'], end: ["'", '"'] },
-    jsx: { baseString: 'className=', start: ["'", '"'], end: ["'", '"'] },
-    module: { baseString: `className={${moduleName}`, start: ['.'], end: ['}'] },
-  };
-
-  const { baseString, start, end } = formCases[formType];
-
+  const { baseString, start, end } = getFormCases(formType, moduleName);
   const isInputDataValid = parseFormData({ input, baseString, formType, end, moduleName });
-  if (!isInputDataValid) return 'Invalid Code Structure';
+  if (!isInputDataValid) return 'Invalid Code Format.';
 
   for (let i = 0; i < input.length; i++) {
     if (input[i] === baseString[classNameCount]) {
@@ -33,7 +25,7 @@ export const getClassNames = (parameters: getClassNames) => {
       classNameCount = 0;
     }
 
-    if (className === baseString) {
+    if (className.length === baseString.length) {
       let classNameSlider = 1;
       className = '';
 
@@ -62,5 +54,5 @@ export const getClassNames = (parameters: getClassNames) => {
     }
   }
 
-  return classNames.toString().split(',').join('\n');
+  return (classNames.length && classNames.toString().split(',').join('\n')) || 'Invalid Code Format.';
 };
