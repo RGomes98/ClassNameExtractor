@@ -17,7 +17,7 @@ export const getClassNames = (parameters: getClassNames) => {
 
   const { baseString, start, end } = formCases[formType];
 
-  const isFormDataValid = parseFormData(input, baseString, formType, end, moduleName);
+  const isFormDataValid = parseFormData({ input, baseString, formType, end, moduleName });
   if (!isFormDataValid) return 'Invalid Code Structure';
 
   const CLASS_NAME_SIZE_LIMIT = 100;
