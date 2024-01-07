@@ -1,3 +1,4 @@
 export const getClassNameSettings = (className: string, classNames: string[]) => {
-  return [classNames.includes(`.${className.trim()}{}`), `.${className.trim()}{}`] as const;
+  const formattedClassName = `.${className.trim()}{}`;
+  return [classNames.includes(formattedClassName), formattedClassName] as const;
 };
