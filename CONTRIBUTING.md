@@ -8,7 +8,7 @@ Thank you for your interest in contributing to CodeChisel! This document outline
 2. Clone your fork to your local machine:
 
    ```bash
-   git clone https://github.com/yourusername/codechisel.git
+   git clone https://github.com/RGomes98/codechisel.git
    ```
 
 3. Create a new branch for your contribution:
@@ -29,11 +29,11 @@ Thank you for your interest in contributing to CodeChisel! This document outline
    git push origin feature/your-feature
    ```
 
-6. Open a pull request on the [main repository](https://github.com/yourusername/codechisel).
+6. Open a pull request on the [main repository](https://github.com/RGomes98/codechisel).
 
 ## Reporting Issues
 
-If you encounter any issues or have suggestions for improvements, please [open an issue](https://github.com/yourusername/codechisel/issues).
+If you encounter any issues or have suggestions for improvements, please [open an issue](https://github.com/RGomes98/codechisel/issues).
 
 ## Code Style
 
