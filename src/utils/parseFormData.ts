@@ -1,3 +1,5 @@
+import { getBaseStringMatch } from './getBaseStringMatch';
+
 type ParseFormData = {
   input: string;
   baseString: string;
@@ -7,16 +9,11 @@ type ParseFormData = {
 };
 
 export const parseFormData = ({ input, baseString, formType, moduleName, end }: ParseFormData) => {
+  const hasToMatch = getBaseStringMatch(formType, moduleName);
   let baseStringToCheck = '';
   let baseStringCount = 0;
   let matchCount = 0;
   let errorCount = 0;
-
-  const hasToMatch: { [index: string]: string[] } = {
-    html: ['class=""', "class=''"],
-    jsx: ['className=""', "className=''"],
-    module: [`className={${moduleName}}`],
-  };
 
   for (let i = 0; i < input.length; i++) {
     if (input[i] === baseString[baseStringCount]) {
@@ -27,7 +24,7 @@ export const parseFormData = ({ input, baseString, formType, moduleName, end }: 
       baseStringToCheck = '';
     }
 
-    if (baseStringToCheck === baseString) {
+    if (baseStringToCheck.length === baseString.length) {
       const outterMarkAmount = formType === 'module' ? 1 : 2;
       let outterMarkerCount = 0;
 
@@ -51,7 +48,7 @@ export const parseFormData = ({ input, baseString, formType, moduleName, end }: 
         i++;
       }
 
-      const isClassNameValid = hasToMatch[formType].some((pattern) => pattern === baseStringToCheck);
+      const isClassNameValid = hasToMatch.some((pattern) => pattern === baseStringToCheck);
       if (!isClassNameValid) errorCount++;
       else matchCount++;
 
