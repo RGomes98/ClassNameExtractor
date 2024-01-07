@@ -1,14 +1,15 @@
-import { initFormEventHandler } from './initFormEventHandler';
+import { FormElement, handleFormSubmit } from './elements/FormElement';
+import { handleOptionSelect } from './elements/SelectElement';
+import { handleInputChange } from './elements/InputElement';
+
 import './globals.css';
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <form id='form'>
-      <textarea id='input'></textarea>
-      <textarea id='output'></textarea>
-      <button>Click</button>
-    </form>
-  </div>
+    <main>
+      ${FormElement()}
+    </main>
 `;
 
-initFormEventHandler(document.getElementById('form')!);
+document.getElementById('formModuleInput')!.addEventListener('change', handleInputChange);
+document.getElementById('formSelect')!.addEventListener('change', handleOptionSelect);
+document.getElementById('form')!.addEventListener('submit', handleFormSubmit);
