@@ -1,5 +1,7 @@
 # CodeChisel
 
+![CodeChisel](./screenshot.png)
+
 ## Overview
 
 CodeChisel is a lightweight tool designed to streamline the process of extracting class names from HTML, JSX, or JSX with CSS modules. The inspiration behind this project stems from the common developer struggle of manually copying and pasting class names from code snippets into a separate CSS file. CodeChisel simplifies this workflow, enhancing your development productivity by automating the extraction and organization of class names.
