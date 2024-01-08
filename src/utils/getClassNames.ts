@@ -8,7 +8,6 @@ type getClassNames = { input: string; formType: FormType[0 | 1 | 2]; moduleName?
 
 export const getClassNames = (parameters: getClassNames) => {
   const { input, formType, moduleName } = parameters;
-  const CLASS_NAME_SIZE_LIMIT = 1000;
   const classNames: string[] = [];
   let classNameCount = 0;
   let className = '';
@@ -28,32 +27,27 @@ export const getClassNames = (parameters: getClassNames) => {
     }
 
     if (className.length === baseString.length) {
-      const isCSSModule = formType === 'module';
-      let classNameSlider = 1;
-      let closingTag = '';
       className = '';
-
-      const foundOpeningMark = start.some((symbol) => {
-        if (input[classNameSlider + i] === symbol) closingTag = symbol;
-        return input[classNameSlider + i] === symbol;
-      });
+      const openingTag = input[i + 1];
+      const closingTag = formType === 'module' ? end[0] : openingTag;
+      const foundOpeningMark = start.some((symbol) => openingTag === symbol);
 
       if (!foundOpeningMark) continue;
 
-      classNameSlider++;
+      i += 2;
 
       while (true) {
-        const foundClosingMark = input[classNameSlider + i] === (isCSSModule ? end[0] : closingTag);
-        if (foundClosingMark || classNameSlider === CLASS_NAME_SIZE_LIMIT) break;
+        const foundClosingMark = input[i] === closingTag;
+        if (foundClosingMark || i >= input.length) break;
 
-        if (input[classNameSlider + i] === ' ') {
+        if (input[i] === ' ') {
           const [isClassNameRepeated, formattedClassName] = generateFormattedClassName(className, classNames);
           if (!isClassNameRepeated && formattedClassName) classNames.push(formattedClassName);
           className = '';
         }
 
-        className += input[classNameSlider + i];
-        classNameSlider++;
+        className += input[i];
+        i++;
       }
 
       const [isClassNameRepeated, formattedClassName] = generateFormattedClassName(className, classNames);
