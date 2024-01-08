@@ -54,5 +54,5 @@ export const getClassNames = (parameters: getClassNames) => {
     }
   }
 
-  return (classNames.length && classNames.toString().split(',').join('\n')) || 'Invalid Code Format.';
+  return (classNames.length && classNames.toString().split(',').join('\n')) || 'Unable to Find Classnames.';
 };
