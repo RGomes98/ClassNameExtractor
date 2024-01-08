@@ -1,7 +1,7 @@
 import { toggleFormOptionsVisibility } from '../../utils/toggleFormOptionsVisibility';
 import { FormModuleNameInput } from './FormModuleNameInput';
 import { FormSelectOptions } from './FormSelectOptions';
-import type { FormType } from './Form';
+import { FormType } from '../../utils/updateFormState';
 
 export type Option = FormType[0 | 1 | 2];
 
