@@ -21,11 +21,14 @@
 
   --black: hsl(0, 0%, 0%);
   --white: hsl(0, 0%, 100%);
+  --madder: hsl(349, 84%, 38%);
   --wisteria: hsl(272, 52%, 76%);
   --amethyst: hsl(272, 52%, 60%);
+  --malachite: hsl(138, 65%, 55%);
   --gun-metal: hsl(220, 15%, 20%);
   --dark-blue: hsl(240, 100%, 10%);
   --ghost-white: hsl(240, 100%, 99%);
+  --persian-orange: hsl(26, 82%, 60%);
   --anti-flash-white: hsl(0, 0%, 93%);
 
   --transparent-white: hsl(0, 0%, 100%, 0.2);
@@ -77,8 +80,10 @@ textarea {
   flex-direction: column;
 }
 
-.label {
+.label,
+.count-label {
   font-weight: 500;
+  padding-inline: 0.2rem;
   font-size: var(--font-14);
   text-transform: uppercase;
 }
@@ -120,6 +125,21 @@ textarea {
 }
 
 .output-wrapper {
+}
+
+.count-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.count-label {
+}
+
+.count {
+  font-weight: 700;
+  color: var(--madder);
+  letter-spacing: 0.02rem;
 }
 
 .form-output {
@@ -220,5 +240,15 @@ footer {
   .format-wrapper,
   .module-wrapper {
     width: 100% !important;
+  }
+}
+
+@media (width <= 425px) {
+  .count-wrapper {
+    flex-direction: column;
+  }
+
+  .count-label {
+    order: -1;
   }
 }
