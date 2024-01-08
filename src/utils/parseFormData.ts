@@ -25,11 +25,12 @@ export const parseFormData = ({ input, baseString, formType, moduleName, end }: 
     }
 
     if (baseStringToCheck.length === baseString.length) {
+      const closingTag = formType === 'module' ? end[0] : input[i + 1];
       const outterMarkAmount = formType === 'module' ? 1 : 2;
       let outterMarkerCount = 0;
 
       while (outterMarkerCount < outterMarkAmount && i < input.length) {
-        const someMarkerMatched = end.some((marker) => input[i] == marker);
+        const someMarkerMatched = input[i] === closingTag;
 
         if (someMarkerMatched) {
           outterMarkerCount++;
@@ -39,7 +40,7 @@ export const parseFormData = ({ input, baseString, formType, moduleName, end }: 
           const notWhiteSpace = input[i + 1] !== ' ';
 
           const notWhiteSpaceSpaceOrClosingTagAtTheEnd = notWhiteSpace && notClosingTag;
-          const foundAllOutterMarkers = outterMarkerCount == outterMarkAmount;
+          const foundAllOutterMarkers = outterMarkerCount === outterMarkAmount;
           const notOutOfBound = i < input.length - 1;
 
           if (notOutOfBound && foundAllOutterMarkers && notWhiteSpaceSpaceOrClosingTagAtTheEnd) errorCount++;
@@ -57,6 +58,5 @@ export const parseFormData = ({ input, baseString, formType, moduleName, end }: 
     }
   }
 
-  if (errorCount > 0 || matchCount == 0) return false;
-  return true;
+  return errorCount > 0 ? false : true;
 };

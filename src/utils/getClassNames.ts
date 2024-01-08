@@ -1,5 +1,6 @@
-import { getClassNameSettings } from './getClassNamesSettings';
-import type { FormType } from '../components/Form/Form';
+import { generateFormattedClassName } from './generateFormattedClassName';
+import { generateClassNamesData } from './generateClassNamesData';
+import type { FormType } from './updateFormState';
 import { parseFormData } from './parseFormData';
 import { getFormCases } from './getFormCases';
 
@@ -7,14 +8,15 @@ type getClassNames = { input: string; formType: FormType[0 | 1 | 2]; moduleName?
 
 export const getClassNames = (parameters: getClassNames) => {
   const { input, formType, moduleName } = parameters;
-  const CLASS_NAME_SIZE_LIMIT = 100;
+  const CLASS_NAME_SIZE_LIMIT = 1000;
   const classNames: string[] = [];
   let classNameCount = 0;
   let className = '';
 
   const { baseString, start, end } = getFormCases(formType, moduleName);
   const isInputDataValid = parseFormData({ input, baseString, formType, end, moduleName });
-  if (!isInputDataValid) return 'Invalid Code Format.';
+
+  if (!isInputDataValid) return generateClassNamesData({ errorMessage: 'Invalid Code Format.' });
 
   for (let i = 0; i < input.length; i++) {
     if (input[i] === baseString[classNameCount]) {
@@ -26,21 +28,27 @@ export const getClassNames = (parameters: getClassNames) => {
     }
 
     if (className.length === baseString.length) {
+      const isCSSModule = formType === 'module';
       let classNameSlider = 1;
+      let closingTag = '';
       className = '';
 
-      const foundOpeningMark = start.some((symbol) => input[classNameSlider + i] == symbol);
+      const foundOpeningMark = start.some((symbol) => {
+        if (input[classNameSlider + i] === symbol) closingTag = symbol;
+        return input[classNameSlider + i] === symbol;
+      });
+
       if (!foundOpeningMark) continue;
 
       classNameSlider++;
 
       while (true) {
-        const foundClosingMark = end.some((symbol) => input[classNameSlider + i] === symbol);
+        const foundClosingMark = input[classNameSlider + i] === (isCSSModule ? end[0] : closingTag);
         if (foundClosingMark || classNameSlider === CLASS_NAME_SIZE_LIMIT) break;
 
         if (input[classNameSlider + i] === ' ') {
-          const [isClassNameRepeated, formattedClassName] = getClassNameSettings(className, classNames);
-          if (!isClassNameRepeated) classNames.push(formattedClassName);
+          const [isClassNameRepeated, formattedClassName] = generateFormattedClassName(className, classNames);
+          if (!isClassNameRepeated && formattedClassName) classNames.push(formattedClassName);
           className = '';
         }
 
@@ -48,11 +56,14 @@ export const getClassNames = (parameters: getClassNames) => {
         classNameSlider++;
       }
 
-      const [isClassNameRepeated, formattedClassName] = getClassNameSettings(className, classNames);
-      if (!isClassNameRepeated) classNames.push(formattedClassName);
+      const [isClassNameRepeated, formattedClassName] = generateFormattedClassName(className, classNames);
+      if (!isClassNameRepeated && formattedClassName) classNames.push(formattedClassName);
       className = '';
     }
   }
 
-  return (classNames.length && classNames.toString().split(',').join('\n')) || 'Unable to Find Classnames.';
+  const classNamesCount = classNames.length;
+  const classNamesData = classNames.toString().split(',').join('\n');
+  if (!classNamesCount) return generateClassNamesData({ errorMessage: 'Unable to Find ClassNames.' });
+  return generateClassNamesData({ count: classNamesCount, classNames: classNamesData });
 };
