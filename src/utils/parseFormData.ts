@@ -1,7 +1,8 @@
 import { getBaseStringMatch } from './getBaseStringMatch';
 import { GetClassNames } from './getClassNames';
+import type { EndCases } from './getFormCases';
 
-type ParseFormData = GetClassNames & { baseString: string; end: string[] };
+type ParseFormData = GetClassNames & { baseString: string; end: EndCases };
 
 export const parseFormData = ({ input, formType, moduleName, baseString, end }: ParseFormData) => {
   const hasToMatch = getBaseStringMatch({ formType, moduleName });
