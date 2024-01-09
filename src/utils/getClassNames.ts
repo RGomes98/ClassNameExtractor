@@ -13,9 +13,10 @@ export const getClassNames = (parameters: GetClassNames) => {
   let className = '';
 
   const { baseString, start, end } = getFormCases({ formType, moduleName });
-  const isInputDataValid = parseFormData({ input, baseString, formType, end, moduleName });
+  const isInputDataValid = parseFormData({ input, formType, moduleName, baseString, end });
+  const invalidInputErrorMessage = 'Invalid code syntax. Please check for errors or missing elements.';
 
-  if (!isInputDataValid) return generateClassNamesData({ errorMessage: 'Invalid Code Format.' });
+  if (!isInputDataValid) return generateClassNamesData({ errorMessage: invalidInputErrorMessage });
 
   for (let i = 0; i < input.length; i++) {
     if (input[i] === baseString[classNameCount]) {
@@ -58,6 +59,8 @@ export const getClassNames = (parameters: GetClassNames) => {
 
   const classNamesCount = classNames.length;
   const classNamesData = classNames.toString().split(',').join('\n');
-  if (!classNamesCount) return generateClassNamesData({ errorMessage: 'Unable to Find ClassNames.' });
+  const classNamesNotFoundErrorMessage = 'No class names were identified in the provided code snippet.';
+
+  if (!classNamesCount) return generateClassNamesData({ errorMessage: classNamesNotFoundErrorMessage });
   return generateClassNamesData({ count: classNamesCount, classNames: classNamesData });
 };
