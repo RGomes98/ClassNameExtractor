@@ -7,7 +7,6 @@ export const parseFormData = ({ input, formType, moduleName, baseString, end }: 
   const hasToMatch = getBaseStringMatch({ formType, moduleName });
   let baseStringToCheck = '';
   let baseStringCount = 0;
-  let matchCount = 0;
   let errorCount = 0;
 
   for (let i = 0; i < input.length; i++) {
@@ -31,14 +30,14 @@ export const parseFormData = ({ input, formType, moduleName, baseString, end }: 
           outterMarkerCount++;
           baseStringToCheck += input[i];
 
-          const notClosingTag = input[i + 1] !== '>' && input[i + 1] !== '/';
-          const notWhiteSpace = input[i + 1] !== ' ';
+          const isNotClosingTag = input[i + 1] !== '>' && input[i + 1] !== '/';
+          const isNotWhiteSpace = input[i + 1] !== ' ';
 
-          const notWhiteSpaceSpaceOrClosingTagAtTheEnd = notWhiteSpace && notClosingTag;
+          const isNotClosingTagOrWhiteSpaceAtTheEnd = isNotClosingTag && isNotWhiteSpace;
           const foundAllOutterMarkers = outterMarkerCount === outterMarkAmount;
-          const notOutOfBound = i < input.length - 1;
+          const isNotOutOfBound = i < input.length - 1;
 
-          if (notOutOfBound && foundAllOutterMarkers && notWhiteSpaceSpaceOrClosingTagAtTheEnd) errorCount++;
+          if (isNotOutOfBound && foundAllOutterMarkers && isNotClosingTagOrWhiteSpaceAtTheEnd) errorCount++;
         }
 
         i++;
@@ -46,7 +45,6 @@ export const parseFormData = ({ input, formType, moduleName, baseString, end }: 
 
       const isClassNameValid = hasToMatch.some((pattern) => pattern === baseStringToCheck);
       if (!isClassNameValid) errorCount++;
-      else matchCount++;
 
       i--;
       baseStringToCheck = '';
