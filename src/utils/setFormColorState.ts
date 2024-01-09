@@ -3,5 +3,6 @@ export const setFormColorState = (count: number, formCount: HTMLSpanElement) => 
 
   if (count === 0) return (style.color = 'var(--madder)');
   if (count < 100) return (style.color = 'var(--persian-orange)');
-  style.color = 'var(--malachite)';
+  if (count < 500) return (style.color = 'var(--malachite)');
+  style.color = 'var(--electric-blue)';
 };
