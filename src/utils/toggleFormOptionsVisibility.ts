@@ -1,4 +1,4 @@
-import { Option } from '../components/Form/FormOptions';
+import type { Option } from './updateFormState';
 
 export const toggleFormOptionsVisibility = (option: Option) => {
   const moduleInput = <HTMLInputElement>document.getElementById('form-module-input');

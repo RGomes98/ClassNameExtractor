@@ -6,6 +6,7 @@ import { setFormState } from './setFormState';
 
 export const availableOptions = ['html', 'jsx', 'module'] as const;
 export type FormType = typeof availableOptions;
+export type Option = FormType[number];
 
 export const updateFormState = () => {
   if (!availableOptions.includes(formType)) return;

@@ -1,9 +1,7 @@
 import { toggleFormOptionsVisibility } from '../../utils/toggleFormOptionsVisibility';
 import { FormModuleNameInput } from './FormModuleNameInput';
+import type { Option } from '../../utils/updateFormState';
 import { FormSelectOptions } from './FormSelectOptions';
-import { FormType } from '../../utils/updateFormState';
-
-export type Option = FormType[0 | 1 | 2];
 
 export let formType: Option = 'jsx';
 

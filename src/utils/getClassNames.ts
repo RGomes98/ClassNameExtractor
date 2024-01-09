@@ -1,18 +1,18 @@
 import { generateFormattedClassName } from './generateFormattedClassName';
 import { generateClassNamesData } from './generateClassNamesData';
-import type { FormType } from './updateFormState';
+import type { Option } from './updateFormState';
 import { parseFormData } from './parseFormData';
 import { getFormCases } from './getFormCases';
 
-type getClassNames = { input: string; formType: FormType[0 | 1 | 2]; moduleName?: string };
+export type GetClassNames = { input: string; formType: Option; moduleName?: string };
 
-export const getClassNames = (parameters: getClassNames) => {
+export const getClassNames = (parameters: GetClassNames) => {
   const { input, formType, moduleName } = parameters;
   const classNames: string[] = [];
   let classNameCount = 0;
   let className = '';
 
-  const { baseString, start, end } = getFormCases(formType, moduleName);
+  const { baseString, start, end } = getFormCases({ formType, moduleName });
   const isInputDataValid = parseFormData({ input, baseString, formType, end, moduleName });
 
   if (!isInputDataValid) return generateClassNamesData({ errorMessage: 'Invalid Code Format.' });

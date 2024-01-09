@@ -1,15 +1,10 @@
 import { getBaseStringMatch } from './getBaseStringMatch';
+import { GetClassNames } from './getClassNames';
 
-type ParseFormData = {
-  input: string;
-  baseString: string;
-  formType: string;
-  moduleName?: string;
-  end: string[];
-};
+type ParseFormData = GetClassNames & { baseString: string; end: string[] };
 
-export const parseFormData = ({ input, baseString, formType, moduleName, end }: ParseFormData) => {
-  const hasToMatch = getBaseStringMatch(formType, moduleName);
+export const parseFormData = ({ input, formType, moduleName, baseString, end }: ParseFormData) => {
+  const hasToMatch = getBaseStringMatch({ formType, moduleName });
   let baseStringToCheck = '';
   let baseStringCount = 0;
   let matchCount = 0;

@@ -1,10 +1,6 @@
-type setFormState = {
-  count: number;
-  classNames: string;
-  errorMessage: string | null;
-  formCount: HTMLSpanElement;
-  formOutput: HTMLTextAreaElement;
-};
+import { ClassNamesData } from './generateClassNamesData';
+
+type setFormState = ClassNamesData & { formCount: HTMLSpanElement; formOutput: HTMLTextAreaElement };
 
 export const setFormState = ({ count, classNames, errorMessage, formCount, formOutput }: setFormState) => {
   const outputContent = errorMessage ? errorMessage : classNames;
