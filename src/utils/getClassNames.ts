@@ -1,5 +1,5 @@
-import { generateFormattedClassName } from './generateFormattedClassName';
 import { generateClassNamesData } from './generateClassNamesData';
+import { addToClassNames } from './addToClassNames';
 import type { Option } from './updateFormState';
 import { parseFormData } from './parseFormData';
 import { getFormCases } from './getFormCases';
@@ -9,6 +9,7 @@ export type GetClassNames = { input: string; formType: Option; moduleName?: stri
 export const getClassNames = (parameters: GetClassNames) => {
   const { input, formType, moduleName } = parameters;
   const classNames: string[] = [];
+  const classNamesMap = {};
   let classNameCount = 0;
   let className = '';
 
@@ -42,8 +43,7 @@ export const getClassNames = (parameters: GetClassNames) => {
         if (foundClosingMark || i >= input.length) break;
 
         if (input[i] === ' ') {
-          const [isClassNameRepeated, formattedClassName] = generateFormattedClassName(className, classNames);
-          if (!isClassNameRepeated && formattedClassName) classNames.push(formattedClassName);
+          addToClassNames({ className, classNames, classNamesMap });
           className = '';
         }
 
@@ -51,8 +51,7 @@ export const getClassNames = (parameters: GetClassNames) => {
         i++;
       }
 
-      const [isClassNameRepeated, formattedClassName] = generateFormattedClassName(className, classNames);
-      if (!isClassNameRepeated && formattedClassName) classNames.push(formattedClassName);
+      addToClassNames({ className, classNames, classNamesMap });
       className = '';
     }
   }
