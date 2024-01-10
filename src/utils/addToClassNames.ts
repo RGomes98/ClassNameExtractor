@@ -1,10 +1,6 @@
-type AddToClassNames = { className: string; classNames: string[]; classNamesMap: Record<string, boolean> };
+type AddToClassNames = { className: string; classNames: Record<string, boolean> };
 
-export const addToClassNames = ({ className, classNames, classNamesMap }: AddToClassNames) => {
+export const addToClassNames = ({ className, classNames }: AddToClassNames) => {
   const formattedClassName = (className.trim() && `.${className.trim()}{}`) || '';
-
-  if (!classNamesMap[formattedClassName] && formattedClassName) {
-    classNames.push(formattedClassName);
-    classNamesMap[formattedClassName] = true;
-  }
+  if (!classNames[formattedClassName] && formattedClassName) classNames[formattedClassName] = true;
 };

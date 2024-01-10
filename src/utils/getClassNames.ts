@@ -8,9 +8,8 @@ export type GetClassNames = { input: string; formType: Option; moduleName?: stri
 
 export const getClassNames = (parameters: GetClassNames) => {
   const { input, formType, moduleName } = parameters;
-  const classNames: string[] = [];
-  const classNamesMap = {};
   let classNameCount = 0;
+  const classNames = {};
   let className = '';
 
   const { baseString, start, end } = getFormCases({ formType, moduleName });
@@ -43,7 +42,7 @@ export const getClassNames = (parameters: GetClassNames) => {
         if (foundClosingMark || i >= input.length) break;
 
         if (input[i] === ' ') {
-          addToClassNames({ className, classNames, classNamesMap });
+          addToClassNames({ className, classNames });
           className = '';
         }
 
@@ -51,13 +50,14 @@ export const getClassNames = (parameters: GetClassNames) => {
         i++;
       }
 
-      addToClassNames({ className, classNames, classNamesMap });
+      addToClassNames({ className, classNames });
       className = '';
     }
   }
 
-  const classNamesCount = classNames.length;
-  const classNamesData = classNames.toString().split(',').join('\n');
+  const classNamesArray = Object.keys(classNames);
+  const classNamesCount = classNamesArray.length;
+  const classNamesData = classNamesArray.toString().split(',').join('\n');
   const classNamesNotFoundErrorMessage = 'No class names were identified in the provided code snippet.';
 
   if (!classNamesCount) return generateClassNamesData({ errorMessage: classNamesNotFoundErrorMessage });
