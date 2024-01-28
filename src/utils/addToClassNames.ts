@@ -1,6 +1,13 @@
-type AddToClassNames = { className: string; classNames: Record<string, boolean> };
+import type { ClassNames } from './parseClassNames';
 
-export const addToClassNames = ({ className, classNames }: AddToClassNames) => {
-  const formattedClassName = (className.trim() && `.${className.trim()}{}`) || '';
-  if (!classNames[formattedClassName] && formattedClassName) classNames[formattedClassName] = true;
+export const addToClassNames = (classNames: ClassNames) => {
+  const formattedClassName = (classNames.string.trim() && `.${classNames.string.trim()}{}`) || '';
+  const isClassNameNotInSet = !classNames.set.has(formattedClassName);
+
+  if (isClassNameNotInSet && formattedClassName) {
+    classNames.set.add(formattedClassName);
+    classNames.array.push(formattedClassName);
+  }
+
+  classNames.string = '';
 };

@@ -4,7 +4,6 @@ export const toggleFormOptionsVisibility = (option: Option) => {
   const moduleInput = <HTMLInputElement>document.getElementById('form-module-input');
   const formatWrapper = <HTMLDivElement>document.getElementById('format-wrapper');
   const moduleWrapper = <HTMLDivElement>document.getElementById('module-wrapper');
-
   const isModuleWrapperVisible = option === 'module';
 
   if (isModuleWrapperVisible) {

@@ -1,56 +1,58 @@
-import { getBaseStringMatch } from './getBaseStringMatch';
-import { GetClassNames } from './getClassNames';
+import type { GetClassNames } from './getClassNames';
+import { getBaseString } from './getBaseString';
 import type { EndCases } from './getFormCases';
 
-type ParseFormData = GetClassNames & { baseString: string; end: EndCases };
+type ParseFormData = GetClassNames & {
+  baseString: string;
+  end: EndCases;
+};
 
 export const parseFormData = ({ input, formType, moduleName, baseString, end }: ParseFormData) => {
-  const hasToMatch = getBaseStringMatch({ formType, moduleName });
-  let baseStringToCheck = '';
-  let baseStringCount = 0;
-  let errorCount = 0;
+  const formData = { string: '', matchCount: 0, errorCount: 0 };
+  const hasToMatch = getBaseString({ formType, moduleName });
 
   for (let i = 0; i < input.length; i++) {
-    if (input[i] === baseString[baseStringCount]) {
-      baseStringToCheck += input[i];
-      baseStringCount++;
+    if (input[i] === baseString[formData.matchCount]) {
+      formData.string += input[i];
+      formData.matchCount++;
     } else {
-      baseStringCount = 0;
-      baseStringToCheck = '';
+      formData.matchCount = 0;
+      formData.string = '';
     }
 
-    if (baseStringToCheck.length === baseString.length) {
+    if (formData.string.length === baseString.length) {
       const closingTag = formType === 'module' ? end[0] : input[i + 1];
-      const outterMarkAmount = formType === 'module' ? 1 : 2;
-      let outterMarkerCount = 0;
+      const amountOfClosingTagsToFind = formType === 'module' ? 1 : 2;
+      let closingTagsFoundCount = 0;
 
-      while (outterMarkerCount < outterMarkAmount && i < input.length) {
-        const someMarkerMatched = input[i] === closingTag;
+      while (closingTagsFoundCount < amountOfClosingTagsToFind && i < input.length) {
+        const someTagMatched = input[i] === closingTag;
 
-        if (someMarkerMatched) {
-          outterMarkerCount++;
-          baseStringToCheck += input[i];
+        if (someTagMatched) {
+          closingTagsFoundCount++;
+          formData.string += input[i];
 
           const isNotClosingTag = input[i + 1] !== '>' && input[i + 1] !== '/';
           const isNotWhiteSpace = input[i + 1] !== ' ';
 
+          const foundAllClosingTags = amountOfClosingTagsToFind === closingTagsFoundCount;
           const isNotClosingTagOrWhiteSpaceAtTheEnd = isNotClosingTag && isNotWhiteSpace;
-          const foundAllOutterMarkers = outterMarkerCount === outterMarkAmount;
           const isNotOutOfBound = i < input.length - 1;
 
-          if (isNotOutOfBound && foundAllOutterMarkers && isNotClosingTagOrWhiteSpaceAtTheEnd) errorCount++;
+          if (isNotOutOfBound && foundAllClosingTags && isNotClosingTagOrWhiteSpaceAtTheEnd)
+            formData.errorCount++;
         }
 
         i++;
       }
 
-      const isClassNameValid = hasToMatch.some((pattern) => pattern === baseStringToCheck);
-      if (!isClassNameValid) errorCount++;
+      const isClassNameValid = hasToMatch.some((pattern) => pattern === formData.string);
+      if (!isClassNameValid) formData.errorCount++;
 
       i--;
-      baseStringToCheck = '';
+      formData.string = '';
     }
   }
 
-  return errorCount > 0 ? false : true;
+  return !(formData.errorCount > 0);
 };

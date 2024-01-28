@@ -1,6 +1,5 @@
 import { moduleName } from '../components/Form/FormModuleNameInput';
 import { formType } from '../components/Form/FormOptions';
-import { setFormColorState } from './setFormColorState';
 import { getClassNames } from './getClassNames';
 import { setFormState } from './setFormState';
 
@@ -17,5 +16,4 @@ export const updateFormState = () => {
 
   const { count, classNames, errorMessage } = getClassNames({ input, formType, moduleName });
   setFormState({ count, classNames, errorMessage, formCount, formOutput });
-  setFormColorState(count, formCount);
 };
