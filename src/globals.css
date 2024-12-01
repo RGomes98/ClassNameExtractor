@@ -127,6 +127,7 @@ textarea {
 }
 
 .output-wrapper {
+  position: relative;
 }
 
 .count-wrapper {
@@ -147,6 +148,27 @@ textarea {
 .form-output {
   resize: none;
   height: 12.5rem;
+}
+
+.copy-button {
+  position: absolute;
+  width: fit-content;
+  display: none;
+  right: 1.5rem;
+  top: 2.5rem;
+  border: transparent;
+  background-color: transparent;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color ease 200ms;
+}
+
+.copy-button:hover {
+  background-color: var(--anti-flash-white);
+}
+
+.copy-icon {
 }
 
 .options-wrapper {
@@ -252,5 +274,9 @@ footer {
 
   .count-label {
     order: -1;
+  }
+
+  .copy-button {
+    top: 4rem;
   }
 }

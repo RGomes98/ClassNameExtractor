@@ -6,6 +6,7 @@ export const FormOutput = () => {
         <span class='count-label'>Class Names Found: <span id='form-count' class='count'>0</span></span>
       </div>
       <textarea id='form-output' class='form-output' readonly placeholder='.wrapper{} \n.text{} \n.text-bold{}'></textarea>
+      <button id='copy-button' class='copy-button'></button>
     </div>
   `;
 };

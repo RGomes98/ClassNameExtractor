@@ -11,9 +11,10 @@ export const updateFormState = () => {
   if (!availableOptions.includes(formType)) return;
 
   const input = (<HTMLInputElement>document.getElementById('form-input')).value.replace(/ {2,}/g, ' ');
-  let formOutput = <HTMLTextAreaElement>document.getElementById('form-output');
+  const formCopyButton = <HTMLButtonElement>document.getElementById('copy-button');
+  const formOutput = <HTMLTextAreaElement>document.getElementById('form-output');
   const formCount = <HTMLSpanElement>document.getElementById('form-count');
 
   const { count, classNames, errorMessage } = getClassNames({ input, formType, moduleName });
-  setFormState({ count, classNames, errorMessage, formCount, formOutput });
+  setFormState({ count, classNames, errorMessage, formCount, formOutput, formCopyButton });
 };

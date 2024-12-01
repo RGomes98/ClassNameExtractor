@@ -58,7 +58,7 @@ export const parseClassNames = ({ input, baseString, formType, start, end }: Par
   }
 
   const classNamesCount = classNames.set.size;
-  const classNamesData = classNames.array.join('\n');
+  const classNamesData = classNames.array;
 
   return { classNamesData, classNamesCount };
 };
